@@ -1,0 +1,23 @@
+import 'package:bigsizeship_mobile/src/address/data/datasources/address_remote_data_source.dart';
+import 'package:bigsizeship_mobile/src/address/data/repositories/address_repository_implementation.dart';
+import 'package:bigsizeship_mobile/src/address/domain/repositories/address_repository.dart';
+import 'package:bigsizeship_mobile/src/address/domain/usecases/get_address.dart';
+import 'package:bigsizeship_mobile/src/address/domain/usecases/get_districts.dart';
+import 'package:bigsizeship_mobile/src/address/domain/usecases/get_provinces.dart';
+import 'package:bigsizeship_mobile/src/address/domain/usecases/get_wards.dart';
+import 'package:bigsizeship_mobile/src/address/presentation/bloc/address_bloc.dart';
+import 'package:bigsizeship_mobile/src/authentication/data/datasources/authentication_remote_data_source.dart';
+import 'package:bigsizeship_mobile/src/authentication/data/repositories/authentication_repository_implementation.dart';
+import 'package:bigsizeship_mobile/src/authentication/domain/repositories/authentication_repository.dart';
+import 'package:bigsizeship_mobile/src/authentication/domain/usecases/login.dart';
+import 'package:bigsizeship_mobile/src/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:bigsizeship_mobile/src/order/data/datasources/order_remote_date_source.dart';
+import 'package:bigsizeship_mobile/src/order/data/repositories/order_repository_implementation.dart';
+import 'package:bigsizeship_mobile/src/order/domain/repositories/order_repository.dart';
+import 'package:bigsizeship_mobile/src/order/domain/usecases/get_list_orders.dart';
+import 'package:bigsizeship_mobile/src/order/presentation/bloc/order_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+part 'injection_container.main.dart';

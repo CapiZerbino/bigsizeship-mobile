@@ -28,6 +28,7 @@ class AddressRepositoryImplementation implements AddressRepository {
     required String phoneNumber,
     required bool isDefault,
     required AddressType addressType,
+    required int userId,
   }) async {
     try {
       final result = await _remoteDataSource.createAddress(
@@ -42,6 +43,7 @@ class AddressRepositoryImplementation implements AddressRepository {
         phoneNumber: phoneNumber,
         isDefault: isDefault,
         addressType: addressType,
+        userId: userId,
       );
       return Right(result);
     } on ApiException catch (e) {
@@ -65,7 +67,10 @@ class AddressRepositoryImplementation implements AddressRepository {
     required AddressType addressType,
   }) async {
     try {
-      final result = await _remoteDataSource.getListAddresses();
+      final result = await _remoteDataSource.getListAddresses(
+        userId: userId,
+        addressType: addressType,
+      );
       return Right(result);
     } on ApiException catch (e) {
       return Left(ApiFailure.fromException(e));

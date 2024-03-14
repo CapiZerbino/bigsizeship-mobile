@@ -107,6 +107,33 @@ class ApiRequest {
     }
   }
 
+  Future<T> create<T>({
+    required String resource,
+    required Map<String, dynamic> payload,
+  }) async {
+    final url = '$kBaseUrl/$resource';
+
+    final response = await _dio.post<DataMap>(
+      url,
+      data: {'data': payload},
+      options: Options(
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      return response.data! as T;
+    } else {
+      throw ApiException(
+        message: response.statusMessage ?? 'Unknown error',
+        statusCode: response.statusCode ?? 500,
+      );
+    }
+  }
+
   Future<CustomResponse<Type>> custom<Type>({
     required String url,
     required String method,
@@ -125,7 +152,6 @@ class ApiRequest {
 
     if (filters.isNotEmpty) {
       final filterQuery = generateFilter(filters);
-      print(filterQuery);
       requestUrl = '$requestUrl&$filterQuery';
     }
 

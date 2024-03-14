@@ -23,6 +23,10 @@ class GetListAddressesSuccess extends AddressState {
   List<Object> get props => [addresses];
 }
 
+class ReloadListAddress extends AddressState {
+  const ReloadListAddress();
+}
+
 class GetListProvincesSuccess extends AddressState {
   const GetListProvincesSuccess(this.provinces);
   final List<Province> provinces;
@@ -49,6 +53,25 @@ class GetListWardsSuccess extends AddressState {
 
 class GetListAddressesError extends AddressState {
   const GetListAddressesError(this.message);
+  final String message;
+  @override
+  List<Object> get props => [message];
+}
+
+class CreateAddressLoading extends AddressState {
+  const CreateAddressLoading();
+}
+
+class CreateAddressSuccess extends AddressState {
+  const CreateAddressSuccess(this.address);
+  final Address address;
+
+  @override
+  List<Object> get props => [address];
+}
+
+class CreateAddressError extends AddressState {
+  const CreateAddressError(this.message);
   final String message;
   @override
   List<Object> get props => [message];

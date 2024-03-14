@@ -4,19 +4,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/':
       return _pageBuilder(
-        (_) => BlocProvider<AuthenticationBloc>(
-          create: (_) => locator<AuthenticationBloc>(),
-          child: const LogInScreen(),
-        ),
-        settings: settings,
-      );
-
-    case LogInScreen.routeName:
-      return _pageBuilder(
-        (_) => BlocProvider<AuthenticationBloc>(
-          create: (_) => locator<AuthenticationBloc>(),
-          child: const LogInScreen(),
-        ),
+        (_) => const LogInScreen(),
         settings: settings,
       );
     case HomeScreen.routeName:
@@ -67,11 +55,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case ListAddressesScreen.routeName:
       return _pageBuilder(
         (_) => const ListAddressesScreen(),
-        settings: settings,
-      );
-    case SelectAddressScreen.routeName:
-      return _pageBuilder(
-        (_) => const SelectAddressScreen(),
         settings: settings,
       );
     default:

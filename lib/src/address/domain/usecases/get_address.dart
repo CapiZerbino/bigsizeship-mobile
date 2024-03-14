@@ -28,6 +28,5 @@ class GetListAddressesParams extends Equatable {
   final AddressType addressType;
 
   @override
-  // TODO: implement props
   List<Object?> get props => [];
 }

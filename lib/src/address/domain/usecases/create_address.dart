@@ -24,6 +24,7 @@ class CreateAddress
         phoneNumber: params.phoneNumber,
         isDefault: params.isDefault,
         addressType: params.addressType,
+        userId: params.userId,
       );
 }
 
@@ -40,6 +41,7 @@ class CreateAddressParams extends Equatable {
     required this.phoneNumber,
     required this.isDefault,
     required this.addressType,
+    required this.userId,
   });
 
   final String address;
@@ -53,6 +55,7 @@ class CreateAddressParams extends Equatable {
   final String phoneNumber;
   final bool isDefault;
   final AddressType addressType;
+  final int userId;
 
   @override
   List<Object?> get props => [];

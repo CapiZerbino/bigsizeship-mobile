@@ -50,6 +50,7 @@ Future<void> _initAddress() async {
         getListProvinces: locator(),
         getListDistricts: locator(),
         getListWards: locator(),
+        createAddress: locator(),
       ),
     )
     // Use cases
@@ -57,6 +58,7 @@ Future<void> _initAddress() async {
     ..registerLazySingleton(() => GetListProvinces(locator()))
     ..registerLazySingleton(() => GetListDistricts(locator()))
     ..registerLazySingleton(() => GetListWards(locator()))
+    ..registerLazySingleton(() => CreateAddress(locator()))
     // Repositories
     ..registerLazySingleton<AddressRepository>(
       () => AddressRepositoryImplementation(locator()),
@@ -72,4 +74,5 @@ Future<void> _initOnboarding() async {}
 Future<void> _initCore() async {
   final client = Client();
   locator.registerLazySingleton(() => client);
+  locator.registerSingleton(ApiRequest);
 }

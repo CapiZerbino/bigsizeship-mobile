@@ -1,7 +1,6 @@
 import 'package:bigsizeship_mobile/core/common/widgets/gradient_background.dart';
 import 'package:bigsizeship_mobile/core/resources/colours.dart';
 import 'package:bigsizeship_mobile/core/resources/media_resources.dart';
-import 'package:bigsizeship_mobile/core/services/injection_container.dart';
 import 'package:bigsizeship_mobile/src/order/domain/entities/carrier.dart';
 import 'package:bigsizeship_mobile/src/order/domain/entities/order.dart';
 import 'package:bigsizeship_mobile/src/order/presentation/bloc/order_bloc.dart';
@@ -20,12 +19,11 @@ class ListOrderScreen extends StatefulWidget {
 
 class _ListOrderScreenState extends State<ListOrderScreen> {
   List<Order> listOrder = [];
-  final _orderBloc = locator.get<OrderBloc>();
 
   @override
   void initState() {
     super.initState();
-    _orderBloc.add(const GetListOrdersEvent());
+    context.read<OrderBloc>().add(const GetListOrdersEvent());
   }
 
   //function to get icon name
@@ -52,15 +50,6 @@ class _ListOrderScreenState extends State<ListOrderScreen> {
         title: const Text('Danh sách đơn hàng'),
         centerTitle: true,
         actions: <Widget>[
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.filter_alt_outlined,
-          //     color: Colours.primaryColour,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, CreateOrderScreen.routeName);
-          //   },
-          // ),
           IconButton(
             icon: const Icon(
               Icons.add,
@@ -72,121 +61,118 @@ class _ListOrderScreenState extends State<ListOrderScreen> {
           ),
         ],
       ),
-      body: BlocProvider(
-        create: (context) => _orderBloc,
-        child: BlocConsumer<OrderBloc, OrderState>(
-          listener: (_, state) {
-            if (state is GetListOrdersSuccess) {
-              listOrder = state.orders;
-            }
-          },
-          builder: (context, state) {
-            return GradientBackground(
-              image: MediaResources.whiteBackground,
-              child: SafeArea(
-                child: Center(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                    itemCount: listOrder.length,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/orderDetail',
-                              arguments: listOrder[index],
-                            );
-                          },
-                          title: Text(
-                            listOrder[index].trackingId,
-                            style: const TextStyle(
-                              color: Colours.primaryColour,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Text('Thời gian: '),
-                                  Text(
-                                    DateFormat.yMd().format(
-                                      DateTime.parse(
-                                        listOrder[index].createdAt.toString(),
-                                      ),
-                                    ),
-                                    style: const TextStyle(
-                                      color: Colours.neutralTextColour,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Khách: '),
-                                  SizedBox(
-                                    width: 180,
-                                    child: Text(
-                                      listOrder[index].toName.toString(),
-                                      overflow: TextOverflow.ellipsis,
-                                      softWrap: false,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        color: Colours.neutralTextColour,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Trạng thái: '),
-                                  Text(
-                                    listOrder[index].status,
-                                    style: const TextStyle(
-                                      color: Colours.neutralTextColour,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Text('Cước: '),
-                                  Text(
-                                    listOrder[index].shipmentFee.toString(),
-                                    style: const TextStyle(
-                                      color: Colours.primaryColour,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          leading: Image(
-                            width: 36,
-                            height: 36,
-                            image: AssetImage(
-                              'assets/images/${getLogoCarrier(listOrder[index].carrier)}.png',
-                            ),
+      body: BlocConsumer<OrderBloc, OrderState>(
+        listener: (_, state) {
+          if (state is GetListOrdersSuccess) {
+            listOrder = state.orders;
+          }
+        },
+        builder: (context, state) {
+          return GradientBackground(
+            image: MediaResources.whiteBackground,
+            child: SafeArea(
+              child: Center(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                  itemCount: listOrder.length,
+                  itemBuilder: (context, index) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/orderDetail',
+                            arguments: listOrder[index],
+                          );
+                        },
+                        title: Text(
+                          listOrder[index].trackingId,
+                          style: const TextStyle(
+                            color: Colours.primaryColour,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      );
-                    },
-                  ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text('Thời gian: '),
+                                Text(
+                                  DateFormat.yMd().format(
+                                    DateTime.parse(
+                                      listOrder[index].createdAt.toString(),
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                    color: Colours.neutralTextColour,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text('Khách: '),
+                                SizedBox(
+                                  width: 180,
+                                  child: Text(
+                                    listOrder[index].toName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: false,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      color: Colours.neutralTextColour,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text('Trạng thái: '),
+                                Text(
+                                  listOrder[index].status,
+                                  style: const TextStyle(
+                                    color: Colours.neutralTextColour,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text('Cước: '),
+                                Text(
+                                  listOrder[index].shipmentFee.toString(),
+                                  style: const TextStyle(
+                                    color: Colours.primaryColour,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        leading: Image(
+                          width: 36,
+                          height: 36,
+                          image: AssetImage(
+                            'assets/images/${getLogoCarrier(listOrder[index].carrier)}.png',
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

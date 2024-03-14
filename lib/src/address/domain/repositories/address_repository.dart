@@ -24,6 +24,7 @@ abstract class AddressRepository {
     required String phoneNumber,
     required bool isDefault,
     required AddressType addressType,
+    required int userId,
   });
   ResultFuture<AddressModel> deleteAddress({required int id});
 

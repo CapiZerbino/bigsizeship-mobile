@@ -6,7 +6,6 @@ enum AddressType {
 }
 
 extension AddressExt on AddressType {
-// tên không phải tiếng Anh
   String get name {
     switch (this) {
       case AddressType.SENDER:

@@ -1,7 +1,5 @@
 import 'package:bigsizeship_mobile/core/resources/colours.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class DescriptionItem extends StatelessWidget {
   const DescriptionItem({
@@ -37,6 +35,7 @@ class DescriptionItem extends StatelessWidget {
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
                   child: Text(
@@ -46,6 +45,7 @@ class DescriptionItem extends StatelessWidget {
                   ),
                 ),
                 Flexible(
+                  flex: 2,
                   child: Text(
                     _value,
                     textAlign: TextAlign.right,

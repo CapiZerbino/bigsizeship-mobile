@@ -1,6 +1,4 @@
 import 'package:bigsizeship_mobile/core/common/widgets/custom_text_field.dart';
-import 'package:bigsizeship_mobile/core/common/widgets/rounded_button.dart';
-import 'package:bigsizeship_mobile/src/address/presentation/views/select_address_screen.dart';
 import 'package:flutter/material.dart';
 
 class CreateAddressForm extends StatefulWidget {
@@ -32,20 +30,39 @@ class _CreateAddressFormState extends State<CreateAddressForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomTextField(
+            label: 'Tên người nhận',
             controller: widget.nameController,
             hintText: 'Tên người nhận',
             keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Vui lòng nhập tên người nhận';
+              }
+              return null;
+            },
           ),
           const SizedBox(height: 10),
           CustomTextField(
             controller: widget.phoneNumberController,
+            label: 'Số điện thoại',
             hintText: 'Số điện thoại',
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Vui lòng nhập số điện thoại';
+              }
+              // validate vietnam phone number
+              if (!RegExp(r'(84|0[3|5|7|8|9])+([0-9]{8})\b').hasMatch(value)) {
+                return 'Số điện thoại không hợp lệ';
+              }
+              return null;
+            },
           ),
           const SizedBox(height: 10),
           CustomTextField(
             controller: widget.addressController,
             hintText: 'Địa chỉ',
+            label: 'Địa chỉ',
             keyboardType: TextInputType.emailAddress,
           ),
         ],

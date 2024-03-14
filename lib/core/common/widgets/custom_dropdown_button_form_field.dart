@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    required this.controller,
+class CustomDropDownButtonFormField<T> extends StatelessWidget {
+  CustomDropDownButtonFormField({
+    this.items,
+    this.value,
     this.filled = false,
     this.obscureText = false,
     this.readOnly = false,
@@ -15,10 +16,12 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.hintStyle,
     this.overrideValidator = false,
+    this.onChanged,
   });
 
-  final String? Function(String?)? validator;
-  final TextEditingController controller;
+  List<DropdownMenuItem<T>>? items;
+  T? value;
+  final String? Function(T?)? validator;
   final bool filled;
   final Color? fillColour;
   final bool obscureText;
@@ -26,10 +29,10 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? hintText;
   final String? label;
-
   final TextInputType? keyboardType;
   final bool overrideValidator;
   final TextStyle? hintStyle;
+  void Function(T?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +50,7 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
           ),
-        TextFormField(
-          controller: controller,
-          validator: overrideValidator
-              ? validator
-              : (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'This field is required';
-                  }
-                  return validator?.call(value);
-                },
-          onTapOutside: (_) {
-            FocusScope.of(context).unfocus();
-          },
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          readOnly: readOnly,
+        DropdownButtonFormField<T>(
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -77,7 +65,6 @@ class CustomTextField extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
             ),
-            // overwriting the default padding helps with that puffy look
             contentPadding: const EdgeInsets.symmetric(horizontal: 20),
             filled: filled,
             fillColor: fillColour,
@@ -89,6 +76,10 @@ class CustomTextField extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
           ),
+          items: items,
+          value: value,
+          validator: validator,
+          onChanged: onChanged,
         ),
       ],
     );

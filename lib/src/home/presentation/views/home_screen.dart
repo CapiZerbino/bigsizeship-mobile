@@ -36,21 +36,6 @@ class _HomeScreen extends State<HomeScreen> {
                 index: controller.currentIndex,
                 children: controller.screens,
               ),
-              floatingActionButton: Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: 60,
-                width: 60,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    controller.changeIndex(1);
-                  },
-                  backgroundColor: Colours.primaryColour,
-                  child: const Icon(
-                    IconlyBold.plus,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
               bottomNavigationBar: BottomNavigationBar(
                 currentIndex: controller.currentIndex,
                 elevation: 8,
@@ -60,20 +45,9 @@ class _HomeScreen extends State<HomeScreen> {
                   BottomNavigationBarItem(
                     icon: Icon(
                       controller.currentIndex == 0
-                          ? IconlyBold.category
-                          : IconlyLight.category,
-                      color: controller.currentIndex == 0
-                          ? Colours.primaryColour
-                          : Colors.grey,
-                    ),
-                    label: 'Thống kê',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      controller.currentIndex == 1
                           ? IconlyBold.document
                           : IconlyLight.document,
-                      color: controller.currentIndex == 1
+                      color: controller.currentIndex == 0
                           ? Colours.primaryColour
                           : Colors.grey,
                     ),
@@ -81,21 +55,21 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      controller.currentIndex == 2
-                          ? IconlyBold.wallet
-                          : IconlyLight.wallet,
-                      color: controller.currentIndex == 2
+                      controller.currentIndex == 1
+                          ? IconlyBold.home
+                          : IconlyLight.home,
+                      color: controller.currentIndex == 1
                           ? Colours.primaryColour
                           : Colors.grey,
                     ),
-                    label: 'Đối soát',
+                    label: 'Kho hàng',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
-                      controller.currentIndex == 3
+                      controller.currentIndex == 2
                           ? IconlyBold.profile
                           : IconlyLight.profile,
-                      color: controller.currentIndex == 3
+                      color: controller.currentIndex == 2
                           ? Colours.primaryColour
                           : Colors.grey,
                     ),

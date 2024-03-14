@@ -11,7 +11,10 @@ import 'package:bigsizeship_mobile/src/address/domain/entities/address.dart';
 abstract class AddressRemoteDataSource {
   const AddressRemoteDataSource();
 
-  Future<List<AddressModel>> getListAddresses();
+  Future<List<AddressModel>> getListAddresses({
+    required int userId,
+    required AddressType addressType,
+  });
 
   Future<AddressModel> createAddress({
     required String address,
@@ -25,6 +28,7 @@ abstract class AddressRemoteDataSource {
     required String phoneNumber,
     required bool isDefault,
     required AddressType addressType,
+    required int userId,
   });
 
   Future<AddressModel> deleteAddress({required int id});
@@ -52,9 +56,31 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
     required String phoneNumber,
     required bool isDefault,
     required AddressType addressType,
-  }) {
-    // TODO: implement createAddress
-    throw UnimplementedError();
+    required int userId,
+  }) async {
+    try {
+      final result = await ApiRequest().create<DataMap>(
+        resource: 'v1/addresses',
+        payload: {
+          'address': address,
+          'province': province,
+          'province_code': provinceCode,
+          'district': district,
+          'district_code': districtCode,
+          'ward': ward,
+          'ward_code': wardCode,
+          'name': name,
+          'phone_number': phoneNumber,
+          'is_default': isDefault,
+          'address_type': addressType.name,
+          'user': userId,
+        },
+      );
+
+      return AddressModel.fromMap(result['data'] as DataMap);
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -64,7 +90,10 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
   }
 
   @override
-  Future<List<AddressModel>> getListAddresses() async {
+  Future<List<AddressModel>> getListAddresses({
+    required int userId,
+    required AddressType addressType,
+  }) async {
     try {
       final result = await ApiRequest().custom<List<DataMap>>(
         url: '$kBaseUrl/v1/addresses',
@@ -72,11 +101,8 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
         filters: [],
         sorters: [],
         headers: {},
-        query: {'address_type': AddressType.SENDER.name, 'user_id': 1},
+        query: {'address_type': addressType.name, 'user_id': userId},
       );
-
-      print(result.data);
-
       return result.data.map(AddressModel.fromMap).toList();
     } catch (e) {
       throw Exception(e);
@@ -103,8 +129,6 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
         query: {},
       );
 
-      print(result.data);
-
       return result.data.map(DistrictModel.fromMap).toList();
     } catch (e) {
       throw Exception(e);
@@ -122,8 +146,6 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
         headers: {},
         query: {},
       );
-
-      print(result.data);
 
       return result.data.map(ProvinceModel.fromMap).toList();
     } catch (e) {
@@ -148,8 +170,6 @@ class AddressRemoteDataSourceImplementation implements AddressRemoteDataSource {
         headers: {},
         query: {},
       );
-
-      print(result.data);
 
       return result.data.map(WardModel.fromMap).toList();
     } catch (e) {

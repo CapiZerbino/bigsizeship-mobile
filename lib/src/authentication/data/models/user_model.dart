@@ -19,6 +19,20 @@ class UserModel extends User {
     super.role,
     super.sale,
   });
+  // create empty UserModel
+  factory UserModel.empty() {
+    return const UserModel(
+      id: 0,
+      username: '',
+      phoneNumber: '',
+      email: '',
+      updatedAt: '',
+      createdAt: '',
+      confirmed: false,
+      blocked: false,
+      provider: '',
+    );
+  }
 
   factory UserModel.fromJson(String source) {
     final jsonData = jsonDecode(source) as DataMap;
